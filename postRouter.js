@@ -5,7 +5,7 @@ const postRouter = express.Router();
 
 postRouter.get("/", (req, res) => {
   db.find()
-    .then(users => res.status(200).json(users))
+    .then(posts => res.status(200).json(posts))
     .catch(err => res.status(500).json(err.message));
 });
 
@@ -35,12 +35,22 @@ postRouter.get("/:id/comments", (req, res) => {
     .catch(err => res.status());
 });
 
-postRouter.post("/test", (req, res) => {
+postRouter.post("/", (req, res) => {
   console.log(req.body);
   const newPost = req.body;
   db.insert(newPost)
     .then(result => res.send(result))
     .catch(err => res.status(500).json(err.message));
+});
+
+postRouter.post("/:id/comments", (req, res) => {
+  const comment = req.body;
+  console.log("id", req.params.id);
+  comment.post_id = req.params.id;
+  console.log(comment);
+  db.insertComment(comment)
+    .then(response => res.send(response))
+    .catch(err => res.send(err.message));
 });
 
 module.exports = postRouter;
