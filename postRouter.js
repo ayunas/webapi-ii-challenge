@@ -35,4 +35,12 @@ postRouter.get("/:id/comments", (req, res) => {
     .catch(err => res.status());
 });
 
+postRouter.post("/test", (req, res) => {
+  console.log(req.body);
+  const newPost = req.body;
+  db.insert(newPost)
+    .then(result => res.send(result))
+    .catch(err => res.status(500).json(err.message));
+});
+
 module.exports = postRouter;

@@ -6,6 +6,7 @@ const postRouter = require("./postRouter");
 
 const port = 8000;
 
+server.use(express.json()); //allows server to parse incoming req objects
 server.use("/api/posts", postRouter);
 
 server.listen(port, () => {
